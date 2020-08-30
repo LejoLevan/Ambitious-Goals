@@ -5,8 +5,9 @@ import pygame
 
 from settings import Settings
 from Images.searchUp import searchUp
-from gui import dialogueBlock
-from usefulFunctions import speak
+from gui import dialogueBlock, optionMenu, Inventory, playerStats
+from usefulFunctions import speak, playerInteract
+from player import player
 
 class RPG:
     """Overall class to mangage game assets and behavior."""
@@ -19,8 +20,13 @@ class RPG:
         pygame.display.set_caption("Ambitious Goals!!")
 
         self.game_active = False
+        self.menuOpen = False
 
         self.dialogueBlock = dialogueBlock(self)
+        self.optionMenu = optionMenu(self)
+        self.Inventory = Inventory(self)
+        self.statSheet = playerStats(self)
+        self.player = player()
 
     def run_game(self):
         """Start the main loop for the game"""
@@ -47,6 +53,9 @@ class RPG:
         Args:
             mous_pos (Integer): x and y positions of the mouse
         """   
+        if self.menuOpen == True:
+            self.optionMenu.mouseEvents(mous_pos)
+        self.Inventory.mouseEvents(mous_pos)
         
     def _check_keydown_events(self, event):
         """Method checks what button on the keyboard was pressed
@@ -57,15 +66,32 @@ class RPG:
         if event.key == pygame.K_q:
             sys.exit()
         elif event.key == pygame.K_w:
-            speak(self, "Hi my name is billy bob joe, and you may ask who tf is billy bob joe? And I say...don't swear at me meanine :( that's mean. Btw the grammar in this string is terrible just plain terrible terrible enough that a english teacher might have a heart attack :P which is kinda cool to be fair. Welp I gotta type so more stuff cuz just copy and pasting doesn't help me at all in fact I'm just confused as confused as confusion which is pokemon move. And guess what it's me again to test another thing cuz apparenlty ddfdfejwip. Whoops feel asleep or did I? I dunnoq")
+            speak(self, "Hi Daren my name is girl do you like me or do you like guys? I really want to know cuz girls can be guys and guys can be girls. Anyways this conversation is getting really pretty dumb and just some shit to show you some stuff. yatatatatatat dun dun dun and etc or perhaps no")
+        elif event.key == pygame.K_z:
+            things = ["1.) Aye Sir", "2.) I dunno", "3.) What in tarnation", "4.) How quant", "5.) Lalala", "6.) Allo"]
+            playerInteract(things, self)
+        elif event.key == pygame.K_ESCAPE:
+            while self.optionMenu.stopLoop == False:
+                self.menuOpen = True
+                self._check_events()
+                self._update_screen()
+            self.menuOpen = False
+            self.optionMenu.stopLoop = False
+        
+        if self.menuOpen == True:
+            self.optionMenu.keyEvents(event)
 
     def _update_screen(self):
         """Method updates screen"""
         self.screen.fill(self.settings.bg_color)
         if not self.game_active:
-            self.dialogueBlock.draw()
+            self.Inventory.draw(self)
+            self.statSheet.draw()
+            #self.dialogueBlock.draw()
         else:
             pass
+        if self.menuOpen == True:
+            self.optionMenu.draw()
         pygame.display.flip()
 
 if __name__ == '__main__':

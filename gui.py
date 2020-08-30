@@ -6,6 +6,7 @@ import time
 import sys
 
 from Images.searchUp import searchUp
+from usefulFunctions import txtCenterFunction, txtSplitter
 
 # pylint: disable=invalid-name
 class buildingBlocks:
@@ -46,23 +47,23 @@ class buildingBlocks:
         self.rect = pygame.Rect(self.left, self.top, self.width, self.height)
         if self.border == True:
             pygame.draw.rect(self.screen, self.text_color, self.rect, 3)
-        if (self.clickable == True):
-            if self.rect.collidepoint(pygame.mouse.get_pos()):
-                self.button_color = (200, 200, 200)
-            else:
-                self.button_color = (0, 0, 0)
         if self.transparent == False:
             self.screen.fill(self.button_color, self.rect)
-        try:
-            self.msg_image = self.font.render(self.txt, True, self.text_color)
-            self.screen.blit(self.msg_image, self.msg_image_rect)
-        except:
-            pass
         try:
             #self.image = pygame.transform.scale(self.image, (self.width, self.height))
             self.screen.blit(self.image, self.rect)
         except:
             pass
+        try:
+            self.msg_image = self.font.render(self.txt, True, self.text_color, None)
+            self.screen.blit(self.msg_image, self.msg_image_rect)
+        except:
+            pass
+        if (self.clickable == True):
+            if self.rect.collidepoint(pygame.mouse.get_pos()):
+                self.button_color = (115, 115, 115)
+            else:
+                self.button_color = (0, 0, 0)
 
 class dialogueBlock:
     def __init__(self, rpg):
@@ -84,7 +85,7 @@ class dialogueBlock:
 
         self.txtSlot1 = buildingBlocks(rpg)
         
-        self.txtSlot1.txt = "Welcome young adventurer"
+        self.txtSlot1.txt = ""
 
         self.txtSlot1.width, self.txtSlot1.height = 1248.5, 83.7
         self.txtSlot1.top, self.txtSlot1.left = 661.5, 670
@@ -93,7 +94,7 @@ class dialogueBlock:
 
         self.txtSlot2 = buildingBlocks(rpg)
 
-        self.txtSlot2.txt = "rise to the top of societ\""
+        self.txtSlot2.txt = ""
 
         self.txtSlot2.width, self.txtSlot2.height = 1248.5, 83.7
         self.txtSlot2.top, self.txtSlot2.left = 745.2, 670
@@ -102,7 +103,7 @@ class dialogueBlock:
 
         self.txtSlot3 = buildingBlocks(rpg)
 
-        self.txtSlot3.txt = "rise to the top of society.\""
+        self.txtSlot3.txt = ""
 
         self.txtSlot3.width, self.txtSlot3.height = 1248.5, 83.7
         self.txtSlot3.top, self.txtSlot3.left = 828.9, 670
@@ -111,7 +112,7 @@ class dialogueBlock:
 
         self.txtSlot4 = buildingBlocks(rpg)
 
-        self.txtSlot4.txt = "rise to the top of \""
+        self.txtSlot4.txt = ""
 
         self.txtSlot4.width, self.txtSlot4.height = 1248.5, 83.7
         self.txtSlot4.top, self.txtSlot4.left = 912.6, 670
@@ -120,7 +121,7 @@ class dialogueBlock:
 
         self.txtSlot5 = buildingBlocks(rpg)
         
-        self.txtSlot5.txt = "rise to the top of \""
+        self.txtSlot5.txt = ""
 
         self.txtSlot5.width, self.txtSlot5.height = 1248.5, 83.7
         self.txtSlot5.top, self.txtSlot5.left = 996.3, 670
@@ -135,13 +136,15 @@ class dialogueBlock:
         self.txtSlot5.txt = ""
     
     def fitImage(self):
-        
-
         if self.iconBlock.image.get_rect()[0] > 418.5:
             pass
         
         if self.iconBlock.image.get_rect()[1] > 668.5:
             pass
+
+    def mouseEvents(self, mous_pos):
+        if self.dialogueBlock.rect.collidepoint(mous_pos):
+            self.clicked = True
 
     def draw(self):
         self.dialogueBlock.draw()
@@ -151,3 +154,595 @@ class dialogueBlock:
         self.txtSlot3.draw()
         self.txtSlot4.draw()
         self.txtSlot5.draw()
+
+class optionMenu:
+    def __init__(self, rpg):
+        self.menuBox = buildingBlocks(rpg)
+        self.menuBox.width, self.menuBox.height = 420, 690
+        self.menuBox.left, self.menuBox.top = 700, 195
+        self.menuBox.border = True
+
+        self.topicBanner = buildingBlocks(rpg)
+        self.topicBanner.width, self.topicBanner.height = 420, 115
+        self.topicBanner.left, self.topicBanner.top = 700, 195
+        self.topicBanner.image = pygame.image.load("Images\General Settings Banner.png")
+
+        self.slot1 = buildingBlocks(rpg)
+        self.slot1.width, self.slot1.height = 420, 115
+        self.slot1.left, self.slot1.top = 700, 310
+        self.slot1.clickable = True
+        self.slot1.txt = "1.) Resume Game"
+        self.slot1.msg_image_rect.top, self.slot1.msg_image_rect.left = 347.5, 720
+
+        self.slot2 = buildingBlocks(rpg)
+        self.slot2.width, self.slot2.height = 420, 115
+        self.slot2.left, self.slot2.top = 700, 425
+        self.slot2.clickable = True
+        self.slot2.txt = "2.) Save Game"
+        self.slot2.msg_image_rect.top, self.slot2.msg_image_rect.left = 462.5, 720
+
+        self.slot3 = buildingBlocks(rpg)
+        self.slot3.width, self.slot3.height = 420, 115
+        self.slot3.left, self.slot3.top = 700, 540
+        self.slot3.clickable = True
+        self.slot3.txt = "3.) Load Game"
+        self.slot3.msg_image_rect.top, self.slot3.msg_image_rect.left = 572.5, 720
+
+        self.slot4 = buildingBlocks(rpg)
+        self.slot4.width, self.slot4.height = 420, 115
+        self.slot4.left, self.slot4.top = 700, 665
+        self.slot4.clickable = True
+        self.slot4.txt = "4.) Help Button"
+        self.slot4.msg_image_rect.top, self.slot4.msg_image_rect.left = 697.5, 720
+
+        self.slot5 = buildingBlocks(rpg)
+        self.slot5.width, self.slot5.height = 420, 115
+        self.slot5.left, self.slot5.top = 700, 770
+        self.slot5.clickable = True
+        self.slot5.txt = "5.) Quit Game"
+        self.slot5.msg_image_rect.top, self.slot5.msg_image_rect.left = 802.5, 720
+
+        self.generalSettingsTxt = ["1.) Resume Game", "2.) Save Game", "3.) Load Game", "4.) Help Button", "5.) Quit Game"]
+        self.playerSettingsTxt = ["1.) Player Statistics", "2.) Player Inventory", "3.) Quest Logs"]
+        self.stopLoop = False
+
+    def switchSettingTopic(self):
+        if self.slot1.txt == "1.) Resume Game":
+                self.slot1.txt = self.playerSettingsTxt[0]
+                self.slot2.txt = self.playerSettingsTxt[1]
+                self.slot3.txt = self.playerSettingsTxt[2]
+                self.slot4.txt = ""
+                self.slot5.txt = ""
+                self.topicBanner.image = pygame.image.load("Images\Player Options Banner.png")
+        else:
+            self.slot1.txt = self.generalSettingsTxt[0]
+            self.slot2.txt = self.generalSettingsTxt[1]
+            self.slot3.txt = self.generalSettingsTxt[2]
+            self.slot4.txt = self.generalSettingsTxt[3]
+            self.slot5.txt = self.generalSettingsTxt[4]
+            self.topicBanner.image = pygame.image.load("Images\General Settings Banner.png")
+
+
+    def keyEvents(self, event):
+        if event.key == pygame.K_d or event.key == pygame.K_a:
+            self.switchSettingTopic()
+    
+    def mouseEvents(self, mous_pos):
+        if self.topicBanner.rect.collidepoint(mous_pos):
+            self.switchSettingTopic()
+        if self.slot1.rect.collidepoint(mous_pos):
+            if self.slot1.txt == "1.) Resume Game":
+                self.stopLoop = True
+            else:
+                self.stopLoop = True
+        if self.slot2.rect.collidepoint(mous_pos):
+            if self.slot1.txt == "1.) Resume Game":
+                self.stopLoop = True
+            else:
+                self.stopLoop = True
+        if self.slot3.rect.collidepoint(mous_pos):
+            if self.slot1.txt == "1.) Resume Game":
+                self.stopLoop = True
+            else:
+                self.stopLoop = True
+        if self.slot4.rect.collidepoint(mous_pos):
+            self.stopLoop = True
+        if self.slot5.rect.collidepoint(mous_pos):
+            sys.exit()
+
+    def draw(self):
+        self.menuBox.draw()
+        self.topicBanner.draw()
+        self.slot1.draw()
+        self.slot2.draw()
+        self.slot3.draw()
+        self.slot4.draw()
+        self.slot5.draw()
+
+class Inventory:
+    def __init__(self, rpg):
+        self.mainBox = buildingBlocks(rpg)
+        self.mainBox.width, self.mainBox.height = 840, 920
+        self.mainBox.left, self.mainBox.top = 1060, 80
+        self.mainBox.border = True
+
+        self.title = buildingBlocks(rpg)
+        self.title.width, self.title.height = 840, 92
+        self.title.left, self.title.top = 1060, 80
+        self.title.txt = "Player Inventory"
+        self.title.msg_image_rect.top = 108.5
+        txtCenterFunction(self.title, self.title.msg_image_rect, self.title.txt, self.title.font)
+
+        self.equippedWeapon_1 = buildingBlocks(rpg)
+        self.equippedWeapon_1.width, self.equippedWeapon_1.height = 420, 92
+        self.equippedWeapon_1.left, self.equippedWeapon_1.top = 1060, 172
+        self.equippedWeapon_1.font = pygame.font.SysFont('cambria', 25)
+        self.equippedWeapon_1.msg_image_rect.top, self.equippedWeapon_1.msg_image_rect.left = 230, 1070
+        self.equippedWeapon_1.border = True
+        
+        self.equippedWeapon_2 = buildingBlocks(rpg)
+        self.equippedWeapon_2.width, self.equippedWeapon_2.height = 420, 92
+        self.equippedWeapon_2.left, self.equippedWeapon_2.top = 1480, 172
+        self.equippedWeapon_2.font = pygame.font.SysFont('cambria', 25)
+        self.equippedWeapon_2.msg_image_rect.top, self.equippedWeapon_2.msg_image_rect.left = 230, 1490
+        self.equippedWeapon_2.border = True
+
+        self.equippedHelmet = buildingBlocks(rpg)
+        self.equippedHelmet.width, self.equippedHelmet.height = 210, 92
+        self.equippedHelmet.left, self.equippedHelmet.top = 1060, 264
+        self.equippedHelmet.font = pygame.font.SysFont('cambria', 15)
+        self.equippedHelmet.msg_image_rect.top, self.equippedHelmet.msg_image_rect.left = 330, 1070
+        self.equippedHelmet.border = True
+
+        self.equippedChestplate = buildingBlocks(rpg)
+        self.equippedChestplate.width, self.equippedChestplate.height = 210, 92
+        self.equippedChestplate.left, self.equippedChestplate.top = 1270, 264
+        self.equippedChestplate.font = pygame.font.SysFont('cambria', 15)
+        self.equippedChestplate.msg_image_rect.top, self.equippedChestplate.msg_image_rect.left = 330, 1280
+        self.equippedChestplate.border = True
+
+        self.equippedPants = buildingBlocks(rpg)
+        self.equippedPants.width, self.equippedPants.height = 210, 92
+        self.equippedPants.left, self.equippedPants.top = 1480, 264
+        self.equippedPants.font = pygame.font.SysFont('cambria', 15)
+        self.equippedPants.msg_image_rect.top, self.equippedPants.msg_image_rect.left = 330, 1490
+        self.equippedPants.border = True
+
+        self.equippedGlovesBoots = buildingBlocks(rpg)
+        self.equippedGlovesBoots.width, self.equippedGlovesBoots.height = 210, 92
+        self.equippedGlovesBoots.left, self.equippedGlovesBoots.top = 1690, 264
+        self.equippedGlovesBoots.font = pygame.font.SysFont('cambria', 15)
+        self.equippedGlovesBoots.msg_image_rect.top, self.equippedGlovesBoots.msg_image_rect.left = 330, 1700
+        self.equippedGlovesBoots.border = True
+
+        self.weaponsTab = buildingBlocks(rpg)
+        self.weaponsTab.width, self.weaponsTab.height = 168, 80
+        self.weaponsTab.left, self.weaponsTab.top = 1060, 357.5
+        self.weaponsTab.image = pygame.image.load('Images\Weapons Tab.png')
+        self.weaponsTab.clickable = True
+        self.weaponsTab.border = True
+
+        self.armorTab = buildingBlocks(rpg)
+        self.armorTab.width, self.armorTab.height = 168, 80
+        self.armorTab.left, self.armorTab.top = 1228, 357.5
+        self.armorTab.image = pygame.image.load('Images\Armor Tab.png')
+        self.armorTab.clickable = True
+        self.armorTab.border = True
+
+        self.consumableTab = buildingBlocks(rpg)
+        self.consumableTab.width, self.consumableTab.height = 168, 80
+        self.consumableTab.left, self.consumableTab.top = 1396, 357.5
+        self.consumableTab.image = pygame.image.load('Images\Consumable Tab.png')
+        self.consumableTab.clickable = True
+        self.consumableTab.border = True
+
+        self.materialsTab = buildingBlocks(rpg)
+        self.materialsTab.width, self.materialsTab.height = 168, 80
+        self.materialsTab.left, self.materialsTab.top = 1564, 357.5
+        self.materialsTab.image = pygame.image.load('Images\Materials Tab.png')
+        self.materialsTab.clickable = True
+        self.materialsTab.border = True
+
+        self.questTab = buildingBlocks(rpg)
+        self.questTab.width, self.questTab.height = 168, 80
+        self.questTab.left, self.questTab.top = 1732, 357.5
+        self.questTab.image = pygame.image.load('Images\Quest Tab.png')
+        self.questTab.clickable = True
+        self.questTab.border = True
+
+        self.slideBar1 = buildingBlocks(rpg)
+        self.slideBar1.width, self.slideBar1.height = 60, 282
+        self.slideBar1.left, self.slideBar1.top = 1840, 437.5
+        self.slideBar1.image = pygame.image.load('Images\ArrowUp.png')
+        self.slideBar1.clickable = True
+        self.slideBar1.border = True
+        
+        self.slideBar2 = buildingBlocks(rpg)
+        self.slideBar2.width, self.slideBar2.height = 60, 282
+        self.slideBar2.left, self.slideBar2.top = 1840, 719.5
+        self.slideBar2.image = pygame.image.load('Images\ArrowDown.png')
+        self.slideBar2.clickable = True
+        self.slideBar2.border = True
+
+        self.box1 = buildingBlocks(rpg)
+        self.box1.width, self.box1.height = 195, 94
+        self.box1.left, self.box1.top = 1060, 437.5
+        self.box2 = buildingBlocks(rpg)
+        self.box2.width, self.box2.height = 195, 94
+        self.box2.left, self.box2.top = 1255, 437.5
+        self.box3 = buildingBlocks(rpg)
+        self.box3.width, self.box3.height = 195, 94
+        self.box3.left, self.box3.top = 1450, 437.5
+        self.box4 = buildingBlocks(rpg)
+        self.box4.width, self.box4.height = 195, 94
+        self.box4.left, self.box4.top = 1645, 437.5
+
+        self.box5 = buildingBlocks(rpg)
+        self.box5.width, self.box5.height = 195, 94
+        self.box5.left, self.box5.top = 1060, 531.5
+        self.box6 = buildingBlocks(rpg)
+        self.box6.width, self.box6.height = 195, 94
+        self.box6.left, self.box6.top = 1255, 531.5
+        self.box7 = buildingBlocks(rpg)
+        self.box7.width, self.box7.height = 195, 94
+        self.box7.left, self.box7.top = 1450, 531.5
+        self.box8 = buildingBlocks(rpg)
+        self.box8.width, self.box8.height = 195, 94
+        self.box8.left, self.box8.top = 1645, 531.5
+
+        self.box9 = buildingBlocks(rpg)
+        self.box9.width, self.box9.height = 195, 94
+        self.box9.left, self.box9.top = 1060, 625.5
+        self.box10 = buildingBlocks(rpg)
+        self.box10.width, self.box10.height = 195, 94
+        self.box10.left, self.box10.top = 1255, 625.5
+        self.box11 = buildingBlocks(rpg)
+        self.box11.width, self.box11.height = 195, 94
+        self.box11.left, self.box11.top = 1450, 625.5
+        self.box12 = buildingBlocks(rpg)
+        self.box12.width, self.box12.height = 195, 94
+        self.box12.left, self.box12.top = 1645, 625.5
+
+        self.box13 = buildingBlocks(rpg)
+        self.box13.width, self.box13.height = 195, 94
+        self.box13.left, self.box13.top = 1060, 719.5
+        self.box14 = buildingBlocks(rpg)
+        self.box14.width, self.box14.height = 195, 94
+        self.box14.left, self.box14.top = 1255, 719.5
+        self.box15 = buildingBlocks(rpg)
+        self.box15.width, self.box15.height = 195, 94
+        self.box15.left, self.box15.top = 1450, 719.5
+        self.box16 = buildingBlocks(rpg)
+        self.box16.width, self.box16.height = 195, 94
+        self.box16.left, self.box16.top = 1645, 719.5
+
+        self.box17 = buildingBlocks(rpg)
+        self.box17.width, self.box17.height = 195, 94
+        self.box17.left, self.box17.top = 1060, 813.5
+        self.box18 = buildingBlocks(rpg)
+        self.box18.width, self.box18.height = 195, 94
+        self.box18.left, self.box18.top = 1255, 813.5
+        self.box19 = buildingBlocks(rpg)
+        self.box19.width, self.box19.height = 195, 94
+        self.box19.left, self.box19.top = 1450, 813.5
+        self.box20 = buildingBlocks(rpg)
+        self.box20.width, self.box20.height = 195, 94
+        self.box20.left, self.box20.top = 1645, 813.5
+
+        self.box21 = buildingBlocks(rpg)
+        self.box21.width, self.box21.height = 195, 94
+        self.box21.left, self.box21.top = 1060, 907.5
+        self.box22 = buildingBlocks(rpg)
+        self.box22.width, self.box22.height = 195, 94
+        self.box22.left, self.box22.top = 1255, 907.5
+        self.box23 = buildingBlocks(rpg)
+        self.box23.width, self.box23.height = 195, 94
+        self.box23.left, self.box23.top = 1450, 907.5
+        self.box24 = buildingBlocks(rpg)
+        self.box24.width, self.box24.height = 195, 94
+        self.box24.left, self.box24.top = 1645, 907.5
+
+        self.weaponDescriptor = buildingBlocks(rpg)
+        self.weaponDescriptor.width, self.weaponDescriptor.height = 220, 420
+        self.weaponDescriptor.left, self.weaponDescriptor.top = 1500, 220
+        self.weaponDescriptor.border = True
+        
+        self.weaponDescriptorTitle = buildingBlocks(rpg)
+        self.weaponDescriptorTitle.width, self.weaponDescriptorTitle.height = 220, 60
+        self.weaponDescriptorTitle.left, self.weaponDescriptorTitle.top = 1500, 220
+        self.weaponDescriptorTitle.font = pygame.font.SysFont('cambria', 25)
+        self.weaponDescriptorTitle.font.set_underline(True)
+        self.weaponDescriptorTitle.txt = "Fists"
+        self.weaponDescriptorTitle.msg_image_rect.top = 235
+        self.weaponDescriptorTitle.border = True
+        txtCenterFunction(self.weaponDescriptorTitle, self.weaponDescriptorTitle.msg_image_rect, self.weaponDescriptorTitle.txt, self.weaponDescriptorTitle.font)
+        
+        self.weaponDescriptorDMG = buildingBlocks(rpg)
+        self.weaponDescriptorDMG.width, self.weaponDescriptorDMG.height = 220, 60
+        self.weaponDescriptorDMG.left, self.weaponDescriptorDMG.top = 1500, 280
+        self.weaponDescriptorDMG.font = pygame.font.SysFont('cambria', 20)
+        self.weaponDescriptorDMG.txt = "Damage Output: 150"
+        self.weaponDescriptorDMG.msg_image_rect.left, self.weaponDescriptorDMG.msg_image_rect.top = 1515, 300
+        self.weaponDescriptorDMG.border = True
+
+        self.weaponDescriptorDurability = buildingBlocks(rpg)
+        self.weaponDescriptorDurability.width, self.weaponDescriptorDurability.height = 220, 60
+        self.weaponDescriptorDurability.left, self.weaponDescriptorDurability.top = 1500, 340
+        self.weaponDescriptorDurability.font = pygame.font.SysFont('cambria', 20)
+        self.weaponDescriptorDurability.txt = "Durability: 15/15"
+        self.weaponDescriptorDurability.msg_image_rect.left, self.weaponDescriptorDurability.msg_image_rect.top = 1515, 360
+        self.weaponDescriptorDurability.border = True
+
+        self.weaponDescriptorLine1 = buildingBlocks(rpg)
+        self.weaponDescriptorLine1.width, self.weaponDescriptorLine1.height = 220, 40
+        self.weaponDescriptorLine1.left, self.weaponDescriptorLine1.top = 1500, 401
+        self.weaponDescriptorLine1.font = pygame.font.SysFont('cambria', 13)
+        self.weaponDescriptorLine1.txt = "Description: Made out of bone"
+        self.weaponDescriptorLine1.msg_image_rect.left, self.weaponDescriptorLine1.msg_image_rect.top = 1515, 413
+
+        self.weaponDescriptorLine2 = buildingBlocks(rpg)
+        self.weaponDescriptorLine2.width, self.weaponDescriptorLine2.height = 220, 40
+        self.weaponDescriptorLine2.left, self.weaponDescriptorLine2.top = 1500, 440
+        self.weaponDescriptorLine2.font = pygame.font.SysFont('cambria', 13)
+        self.weaponDescriptorLine2.txt = "Description: Made out of bone"
+        self.weaponDescriptorLine2.msg_image_rect.left, self.weaponDescriptorLine2.msg_image_rect.top = 1515, 453
+
+        self.weaponDescriptorLine3 = buildingBlocks(rpg)
+        self.weaponDescriptorLine3.width, self.weaponDescriptorLine3.height = 220, 40
+        self.weaponDescriptorLine3.left, self.weaponDescriptorLine3.top = 1500, 480
+        self.weaponDescriptorLine3.font = pygame.font.SysFont('cambria', 13)
+        self.weaponDescriptorLine3.txt = "Description: Made out of bone"
+        self.weaponDescriptorLine3.msg_image_rect.left, self.weaponDescriptorLine3.msg_image_rect.top = 1515, 493
+
+        self.weaponDescriptorLine4 = buildingBlocks(rpg)
+        self.weaponDescriptorLine4.width, self.weaponDescriptorLine4.height = 220, 40
+        self.weaponDescriptorLine4.left, self.weaponDescriptorLine4.top = 1500, 520
+        self.weaponDescriptorLine4.font = pygame.font.SysFont('cambria', 13)
+        self.weaponDescriptorLine4.txt = "Description: Made out of bone"
+        self.weaponDescriptorLine4.msg_image_rect.left, self.weaponDescriptorLine4.msg_image_rect.top = 1515, 533
+
+        self.weaponDescriptorLine5 = buildingBlocks(rpg)
+        self.weaponDescriptorLine5.width, self.weaponDescriptorLine5.height = 220, 40
+        self.weaponDescriptorLine5.left, self.weaponDescriptorLine5.top = 1500, 560
+        self.weaponDescriptorLine5.font = pygame.font.SysFont('cambria', 13)
+        self.weaponDescriptorLine5.txt = "Description: Made out of bone"
+        self.weaponDescriptorLine5.msg_image_rect.left, self.weaponDescriptorLine5.msg_image_rect.top = 1515, 573
+
+        self.weaponDescriptorLine6 = buildingBlocks(rpg)
+        self.weaponDescriptorLine6.width, self.weaponDescriptorLine6.height = 220, 40
+        self.weaponDescriptorLine6.left, self.weaponDescriptorLine6.top = 1500, 600
+        self.weaponDescriptorLine6.font = pygame.font.SysFont('cambria', 13)
+        self.weaponDescriptorLine6.txt = "Description: Made out of bone"
+        self.weaponDescriptorLine6.msg_image_rect.left, self.weaponDescriptorLine6.msg_image_rect.top = 1515, 613
+
+        self.tab = 'Weapons'
+        self.showDescriptor = False
+        self.checkList = []
+        self.set = 0
+        self.boxList = [self.box1, self.box2, self.box3, self.box4,
+        self.box5, self.box6, self.box7, self.box8, self.box9, self.box10,
+        self.box11, self.box12, self.box13, self.box14, self.box15, self.box16,
+        self.box17, self.box18, self.box19, self.box20, self.box21, self.box22, self.box23, self.box24]
+
+    def update(self, rpg):
+        self.clearInventory()
+        for box in self.boxList:
+            box.border = True
+            number = self.set
+            check = ""
+            checkValid = False
+            try:
+                while checkValid == False:
+                    check = list(rpg.player.inventory[self.tab])[number]
+                    if check not in self.checkList:
+                        self.checkList.append(check)
+                        box.msg_image_rect.left, box.msg_image_rect.top = box.left + 15, (box.top + box.height) - 25
+                        box.font = pygame.font.SysFont('cambria', 15)
+                        box.txt = "{}".format(rpg.player.inventory[self.tab][check]['Name'])
+                        box.image = rpg.player.inventory[self.tab][check]['Icon']
+                        checkValid = True      
+                    else:
+                        number = number + 1
+            except Exception:
+                pass
+
+        self.weaponEquipChecker(rpg)
+        self.equipChecker(rpg, 'Armor', 'Helemt', self.equippedHelmet)
+        self.equipChecker(rpg, 'Armor', 'Chestplate', self.equippedChestplate)
+        self.equipChecker(rpg, 'Armor', 'Pants', self.equippedPants)
+        self.equipChecker(rpg, 'Armor', 'Gloves and Boots', self.equippedGlovesBoots)
+
+        mous_pos = pygame.mouse.get_pos()
+        for box in self.boxList:
+            if box.rect.collidepoint(mous_pos):
+                if box.txt != "":
+                    self.showDescriptor = True
+                    self.weaponDescriptorTitle.txt = box.txt
+                    txtCenterFunction(self.weaponDescriptorTitle, self.weaponDescriptorTitle.msg_image_rect, self.weaponDescriptorTitle.txt, self.weaponDescriptorTitle.font)
+                    self.weaponDescriptor.left, self.weaponDescriptor.top = box.left + 245, box.top - 217.5
+                    
+                    self.weaponDescriptorTitle.left, self.weaponDescriptorTitle.top = box.left + 245, box.top - 217.5
+                    self.weaponDescriptorTitle.msg_image_rect.top = box.top - 202.5
+                    
+                    self.weaponDescriptorDMG.left, self.weaponDescriptorDMG.top = box.left + 245, box.top - 157.5
+                    self.weaponDescriptorDMG.msg_image_rect.left, self.weaponDescriptorDMG.msg_image_rect.top = box.left + 260, box.top - 137.5
+
+                    self.weaponDescriptorDurability.left, self.weaponDescriptorDurability.top = box.left + 245, box.top - 97.5
+                    self.weaponDescriptorDurability.msg_image_rect.left, self.weaponDescriptorDurability.msg_image_rect.top = box.left + 260, box.top - 77.5
+
+                    self.weaponDescriptorLine1.left, self.weaponDescriptorLine1.top = box.left + 245, box.top - 36.5
+                    self.weaponDescriptorLine1.msg_image_rect.left, self.weaponDescriptorLine1.msg_image_rect.top = box.left + 260, box.top - 24.5
+
+                    self.weaponDescriptorLine2.left, self.weaponDescriptorLine2.top = box.left + 245,  box.top + 2.5
+                    self.weaponDescriptorLine2.msg_image_rect.left, self.weaponDescriptorLine2.msg_image_rect.top = box.left + 260, box.top + 15.5
+
+                    self.weaponDescriptorLine3.left, self.weaponDescriptorLine3.top = box.left + 245, box.top + 42.5
+                    self.weaponDescriptorLine3.msg_image_rect.left, self.weaponDescriptorLine3.msg_image_rect.top = box.left + 260, box.top + 55.5
+
+                    self.weaponDescriptorLine4.left, self.weaponDescriptorLine4.top = box.left + 245, box.top + 82.5
+                    self.weaponDescriptorLine4.msg_image_rect.left, self.weaponDescriptorLine4.msg_image_rect.top = box.left + 260, box.top + 95.5
+
+                    self.weaponDescriptorLine5.left, self.weaponDescriptorLine5.top = box.left + 245, box.top + 122.5
+                    self.weaponDescriptorLine5.msg_image_rect.left, self.weaponDescriptorLine5.msg_image_rect.top = box.left + 260, box.top + 135.5
+
+                    self.weaponDescriptorLine6.left, self.weaponDescriptorLine6.top = box.left + 245, box.top + 162.5
+                    self.weaponDescriptorLine6.msg_image_rect.left, self.weaponDescriptorLine6.msg_image_rect.top = box.left + 260, box.top + 175.5
+
+                    if self.tab == 'Weapons':
+                        try:
+                            self.weaponDescriptorDMG.txt = "Physical Damage: {}".format(rpg.player.inventory[self.tab][box.txt]['Physical Attack'])
+                        except:
+                            self.weaponDescriptorDMG.txt = "Magic Damage: {}".format(rpg.player.inventory[self.tab][box.txt]['Magic Attack'])
+                        self.weaponDescriptorDurability.txt = "Durability: {}/{}".format(rpg.player.inventory[self.tab][box.txt]['Durability'], rpg.player.inventory[self.tab][box.txt]['Max Durability'])
+                    if self.tab == 'Armor':
+                        try:
+                            self.weaponDescriptorDMG.txt = "Physical Defense: {}".format(rpg.player.inventory[self.tab][box.txt]['Physical Defense'])
+                        except:
+                            self.weaponDescriptorDMG.txt = "Magic Defense: {}".format(rpg.player.inventory[self.tab][box.txt]['Magic Defense'])
+                    if self.tab == 'Consumable':
+                        pass
+                    if self.tab == 'Materials':
+                        pass
+                    if self.tab == 'Quest Items':
+                        pass
+                try:
+                    self.weaponDescriptorLine1.txt = "Description: {}".format(rpg.player.inventory[self.tab][box.txt]['Description']) 
+                    self.weaponDescriptorLine1.txt, self.weaponDescriptorLine2.txt = txtSplitter(self.weaponDescriptorLine1, self.weaponDescriptorLine1.font, self.weaponDescriptorLine1.txt, 13)
+                    self.weaponDescriptorLine2.txt, self.weaponDescriptorLine3.txt = txtSplitter(self.weaponDescriptorLine2, self.weaponDescriptorLine2.font, self.weaponDescriptorLine2.txt, 13)
+                    self.weaponDescriptorLine3.txt, self.weaponDescriptorLine4.txt = txtSplitter(self.weaponDescriptorLine3, self.weaponDescriptorLine3.font, self.weaponDescriptorLine3.txt, 13)
+                    self.weaponDescriptorLine4.txt, self.weaponDescriptorLine5.txt = txtSplitter(self.weaponDescriptorLine4, self.weaponDescriptorLine4.font, self.weaponDescriptorLine4.txt, 13)
+                    self.weaponDescriptorLine5.txt, self.weaponDescriptorLine6.txt = txtSplitter(self.weaponDescriptorLine5, self.weaponDescriptorLine5.font, self.weaponDescriptorLine5.txt, 13)
+                except:
+                    pass
+                break
+            else:
+                self.showDescriptor = False
+
+    def weaponEquipChecker(self, rpg):
+        number = 0
+        count = 0 
+        for item in rpg.player.inventory['Weapons']:
+            try:
+                if rpg.player.inventory['Weapons'][list(rpg.player.inventory['Weapons'])[number]]['Equipped'] == True:
+                    if self.equippedWeapon_1.txt == "":
+                        self.equippedWeapon_1.txt = list(rpg.player.inventory['Weapons'])[number]
+                        self.equippedWeapon_1.image = rpg.player.inventory['Weapons'][list(rpg.player.inventory['Weapons'])[number]]['Icon']
+                    elif self.equippedWeapon_2.txt == "":
+                        self.equippedWeapon_2.txt = list(rpg.player.inventory['Weapons'])[number]
+                        self.equippedWeapon_2.image = rpg.player.inventory['Weapons'][list(rpg.player.inventory['Weapons'])[number]]['Icon']
+                    count += 1
+                    if rpg.player.inventory['Weapons'][list(rpg.player.inventory['Weapons'])[number]]['Type'] == 'Two Handed':
+                        self.equippedWeapon_1.txt = list(rpg.player.inventory['Weapons'])[number]
+                        self.equippedWeapon_1.image = rpg.player.inventory['Weapons'][list(rpg.player.inventory['Weapons'])[number]]['Icon']
+                        self.equippedWeapon_2.button_color = (200, 200, 200)
+                    else:
+                        self.equippedWeapon_2.button_color = (0, 0, 0)
+            except:
+                pass
+            number += 1
+        if count < 2:
+            self.equippedWeapon_2.txt = ""
+
+    def equipChecker(self, rpg, tab, Type, txtSurface):
+        number = 0
+        for item in rpg.player.inventory[tab]:
+            try:
+                if rpg.player.inventory[tab][list(rpg.player.inventory[tab])[number]]['Equipped'] == True:
+                    if rpg.player.inventory[tab][list(rpg.player.inventory[tab])[number]]['Type'] == Type:
+                        txtSurface.txt = list(rpg.player.inventory[tab])[number]
+            except:
+                pass
+    
+    def clearInventory(self):
+        self.checkList = []
+        for box in self.boxList:
+            box.image = ""
+            box.txt = ""
+    
+    def mouseEvents(self, mous_pos):
+        if self.slideBar2.rect.collidepoint(mous_pos):
+            self.set += 24
+        if self.slideBar1.rect.collidepoint(mous_pos):
+            self.set -= 24
+            if self.set < 0:
+                self.set = 0
+        if self.weaponsTab.rect.collidepoint(mous_pos):
+            self.tab = "Weapons"
+        if self.armorTab.rect.collidepoint(mous_pos):
+            self.tab = "Armor"
+        if self.consumableTab.rect.collidepoint(mous_pos):
+            self.tab = "Armor"
+        if self.questTab.rect.collidepoint(mous_pos):
+            self.tab = "Armor"
+        if self.materialsTab.rect.collidepoint(mous_pos):
+            self.tab = "Armor"
+        
+    def draw(self, rpg):
+        self.update(rpg)
+
+        self.mainBox.draw()
+        self.title.draw()
+
+        self.equippedWeapon_1.draw()
+        self.equippedWeapon_2.draw()
+        self.equippedHelmet.draw()
+        self.equippedChestplate.draw()
+        self.equippedPants.draw()
+        self.equippedGlovesBoots.draw()
+
+        self.slideBar1.draw()
+        self.slideBar2.draw()
+
+        self.weaponsTab.draw()
+        self.armorTab.draw()
+        self.consumableTab.draw()
+        self.materialsTab.draw()
+        self.questTab.draw()
+
+        self.box1.draw()
+        self.box2.draw()
+        self.box3.draw()
+        self.box4.draw()
+        self.box5.draw()
+        self.box6.draw()
+        self.box7.draw()
+        self.box8.draw()
+        self.box9.draw()
+        self.box10.draw()
+        self.box11.draw()
+        self.box12.draw()
+        self.box13.draw()
+        self.box14.draw()
+        self.box15.draw()
+        self.box16.draw()
+        self.box17.draw()
+        self.box18.draw()
+        self.box19.draw()
+        self.box20.draw()
+        self.box21.draw()
+        self.box22.draw()
+        self.box23.draw()
+        self.box24.draw()
+
+        if self.showDescriptor == True:
+            self.weaponDescriptor.draw()
+            self.weaponDescriptorTitle.draw()
+            self.weaponDescriptorDMG.draw()
+            self.weaponDescriptorDurability.draw()
+            self.weaponDescriptorLine1.draw()
+            self.weaponDescriptorLine2.draw()
+            self.weaponDescriptorLine3.draw()
+            self.weaponDescriptorLine4.draw()
+            self.weaponDescriptorLine5.draw()
+            self.weaponDescriptorLine6.draw()
+        
+
+class playerStats:
+    def __init__(self, rpg):
+        self.mainBox = buildingBlocks(rpg)
+        self.mainBox.width, self.mainBox.height = 385, 920
+        self.mainBox.left, self.mainBox.top = 20, 80
+        self.mainBox.border = True
+    
+    def draw(self):
+        self.mainBox.draw()
