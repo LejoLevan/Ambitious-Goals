@@ -211,8 +211,6 @@ def speak(rpg, dialogue):
     rpg.dialogueBlock.txtSlot4.msg_image_rect.top, rpg.dialogueBlock.txtSlot4.msg_image_rect.left = 936.95, 720
     rpg.dialogueBlock.txtSlot5.msg_image_rect.top, rpg.dialogueBlock.txtSlot5.msg_image_rect.left = 1020.65, 720
 
-    rpg.dialogueBlock.iconBlock.image = pygame.image.load("Images\PlayerAssets\Pikachu.jpg")
-
     while flagDone == False:
         line1, line2 = txtSplitter(rpg.dialogueBlock.txtSlot1, rpg.dialogueBlock.txtSlot1.font, line1, 20)
         line2, line3 = txtSplitter(rpg.dialogueBlock.txtSlot2, rpg.dialogueBlock.txtSlot2.font, line2, 20)

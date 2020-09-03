@@ -5,7 +5,7 @@ import pygame
 
 from settings import Settings
 from Images.searchUp import searchUp
-from gui import dialogueBlock, optionMenu, Inventory, playerStats
+from gui import dialogueBlock, optionMenu, Inventory, playerStats, combatGUI
 from usefulFunctions import speak, playerInteract
 from player import player
 
@@ -21,12 +21,15 @@ class RPG:
 
         self.game_active = False
         self.menuOpen = False
+        self.inventoryOpen = False
+        self.statsOpen = False
 
+        self.player = player()
         self.dialogueBlock = dialogueBlock(self)
         self.optionMenu = optionMenu(self)
         self.Inventory = Inventory(self)
         self.statSheet = playerStats(self)
-        self.player = player()
+        self.combatGUI = combatGUI(self)
 
     def run_game(self):
         """Start the main loop for the game"""
@@ -54,8 +57,11 @@ class RPG:
             mous_pos (Integer): x and y positions of the mouse
         """   
         if self.menuOpen == True:
-            self.optionMenu.mouseEvents(mous_pos)
-        self.Inventory.mouseEvents(mous_pos)
+            self.optionMenu.mouseEvents(self, mous_pos)
+        if self.inventoryOpen == True:
+            self.Inventory.mouseEvents(mous_pos)
+        if self.statsOpen == True:
+            self.statSheet.mouseEvents(self, mous_pos)
         
     def _check_keydown_events(self, event):
         """Method checks what button on the keyboard was pressed
@@ -77,7 +83,16 @@ class RPG:
                 self._update_screen()
             self.menuOpen = False
             self.optionMenu.stopLoop = False
-        
+        elif event.key == pygame.K_TAB:
+            if self.inventoryOpen == False:
+                self.inventoryOpen = True
+            else:
+                self.inventoryOpen = False
+        elif event.key == pygame.K_c:
+            if self.statsOpen == False:
+                self.statsOpen = True
+            else:
+                self.statsOpen = False
         if self.menuOpen == True:
             self.optionMenu.keyEvents(event)
 
@@ -85,11 +100,14 @@ class RPG:
         """Method updates screen"""
         self.screen.fill(self.settings.bg_color)
         if not self.game_active:
-            self.Inventory.draw(self)
-            self.statSheet.draw()
             #self.dialogueBlock.draw()
+            self.combatGUI.draw(self)
         else:
             pass
+        if self.inventoryOpen == True:
+            self.Inventory.draw(self)
+        if self.statsOpen == True:
+            self.statSheet.draw(self)
         if self.menuOpen == True:
             self.optionMenu.draw()
         pygame.display.flip()

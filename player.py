@@ -3,44 +3,49 @@ import pygame
 
 class player:
     def __init__(self):
-        self.name = ""
-        self.icon = ""
+        self.stats = {
+            'Name': 'Jonathan',
+            'Icon': 'None',
+            'Weapon': 'None',
+            'Armor': 'None',
+            'Profession': 'Swordsman',
+            
+            'Max Hp': 100,
+            'Hp': 100,
+            
+            'Physical Attack': 5,
+            'Magic Attack': 5,
+            'Agility': 5,
 
-        self.weapon = ""
-        self.armor = ""
+            'Max Stamina': 100,
+            'Stamina': 100,
+            'Max Mana': 100,
+            'Mana': 100,
 
-        self.profession = ""
+            'Physical Defense': 5,
+            'Magic Defense': 5,
+            'Physical Penetration': 5,
+            'Magic Penetration': 5,
+            
+            'Fire Resist': 2,
+            'Poison Resist': 2,
+            'Water Resist': 2,
+            'Earth Resist': 2,
+            'Wind Resist': 2,
 
-        self.maxHp = 100
-        self.hp = 100
+            'Level': 0,
+            'Exp Cap': 15,
+            'Exp': 0,
 
-        self.physicalAttack = 5
-        self.magicAttack = 5
-        self.agility = 5
+            'Accuracy': 75,
+            'Evasion': 15,
+            'Critical Chance': 10,
+            'Critical Multiplier': 1.5,
+            'Luck': 10,
 
-        self.maxStamina = 100
-        self.stamina = 100
-        self.maxMana = 100
-        self.mana = 100
-
-        self.physicalDefense = 5
-        self.magicDefense = 5
-
-        self.fireResist = 2
-        self.poisonResist = 2
-        self.waterResist = 2
-        self.earthResist = 2
-        self.windResit = 2
-
-        self.level = 0 
-        self.expCap = 15
-        self.exp = 0 
-
-        self.accuracy = 75
-        self.evasion = 15
-        self.criticalChance = 10
-        self.criticalMultiplier = 1.5
-        self.luck = 10
+            'Gold': 100,
+            'Skill Points': 5
+        }
 
         self.inventory = {
             'Weapons':{
@@ -83,7 +88,6 @@ class player:
                 'Low Grade Health Potion':{
                     'Name': 'Low Grade Health Potion',
                     'Description': 'While it may restore some of your health, the taste is absolutely awful',
-                    'Buff': self.hp + 10,
                 }
             }
         }
