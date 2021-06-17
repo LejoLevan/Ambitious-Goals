@@ -1,3 +1,6 @@
+import random
+
+
 inventory = {
             'Weapons':{
                 'Fists':{
@@ -38,12 +41,17 @@ inventory = {
             }
         }
 
-number = 0
-check = list(inventory['Weapons'])[number]
-print(check)
+weapons = {
+        'Name': 'Fang of Medusa',
+        'Description': 'A razor sharp tooth gatherd from the head of medusa, you would not want this for shaving',
+        'Icon': 'None',
+        'Durability': 30,
+        'Max Durability': 30,
+        'Physical Attack': 3,
+        'Stamina Cost': 2,
+        'Weight': 1,
+        'Stack': 1,
+        'Equipped': False
+    }
 
-
-for item in inventory['Weapons']:
-    if inventory['Weapons'][list(inventory['Weapons'])[number]]['Equipped'] == True:
-        print("Hi")
-        number += 1
+print(weapons['Physical Attack'])

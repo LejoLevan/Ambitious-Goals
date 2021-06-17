@@ -5,7 +5,7 @@ class player:
     def __init__(self):
         self.stats = {
             'Name': 'Jonathan',
-            'Icon': 'None',
+            'Icon': 'Images\Bandit_4.png',
             'Weapon': 'None',
             'Armor': 'None',
             'Profession': 'Swordsman',
@@ -39,7 +39,7 @@ class player:
 
             'Accuracy': 75,
             'Evasion': 15,
-            'Critical Chance': 10,
+            'Critical Chance': 65,
             'Critical Multiplier': 1.5,
             'Luck': 10,
 

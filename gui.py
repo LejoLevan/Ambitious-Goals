@@ -77,10 +77,21 @@ class combatGUI:
         self.playerIcon = buildingBlocks(rpg)
         self.playerIcon.width, self.playerIcon.height = 200, 200
         self.playerIcon.left, self.playerIcon.top = 125, 787
-        self.playerIcon.image = pygame.image.load("Images\Bandit_4.png").convert_alpha()
+        self.playerIcon.image = pygame.image.load(rpg.player.stats['Icon']).convert_alpha()
         self.playerIcon.transparent = True
         self.playerIcon.image = pygame.transform.scale(self.playerIcon.image, (200, 200))
         #self.playerIcon.border = True
+
+        self.playerDamageIndicator = buildingBlocks(rpg)
+        self.playerDamageIndicator.width, self.playerDamageIndicator.height =  150, 50
+        self.playerDamageIndicator.left, self.playerDamageIndicator.top = 270, 787
+        self.playerDamageIndicator.text_color = (200, 0, 0)
+        self.playerDamageIndicator.txt = "-100"
+        self.playerDamageIndicator.font = pygame.font.SysFont('cambria', 40)
+        self.playerDamageIndicator.msg_image_rect.top = 787
+        txtCenterFunction(self.playerDamageIndicator, self.playerDamageIndicator.msg_image_rect, self.playerDamageIndicator.txt, self.playerDamageIndicator.font)
+        self.playerDamageIndicator.transparent = True
+        #self.playerDamageIndicator.border = True
         
         self.health = buildingBlocks(rpg)
         self.health.width, self.health.height = 400, 30
@@ -134,7 +145,7 @@ class combatGUI:
         self.enemySlot2.font = pygame.font.SysFont('cambria', 30)
         self.enemySlot2.msg_image_rect.top = 95
         txtCenterFunction(self.enemySlot2, self.enemySlot2.msg_image_rect, self.enemySlot2.txt, self.enemySlot2.font)
-        self.enemySlot2.image = pygame.image.load('Images\Monster.png')
+        self.enemySlot2.image = pygame.image.load('Images\Medusa.png')
         self.enemySlot2.transparent = True
         self.enemySlot2.mana = buildingBlocks(rpg)
         self.enemySlot2.mana.width, self.enemySlot2.mana.height = 400, 30
@@ -146,7 +157,7 @@ class combatGUI:
         self.enemySlot2.mana.border = True
         self.enemySlot2.mana.transparent = True
         self.enemySlot2.manaBar = buildingBlocks(rpg)
-        self.enemySlot2.manaBar.button_color = (0, 100, 0)
+        self.enemySlot2.manaBar.button_color = (0, 0, 100)
         self.enemySlot2.manaBar.width, self.enemySlot2.manaBar.height = 400, 30
         self.enemySlot2.manaBar.left, self.enemySlot2.manaBar.top = 760, 195
         self.enemySlot2.stamina = buildingBlocks(rpg)
@@ -159,7 +170,7 @@ class combatGUI:
         self.enemySlot2.stamina.border = True
         self.enemySlot2.stamina.transparent = True
         self.enemySlot2.staminaBar = buildingBlocks(rpg)
-        self.enemySlot2.staminaBar.button_color = (0, 0, 100)
+        self.enemySlot2.staminaBar.button_color = (0, 100, 0)
         self.enemySlot2.staminaBar.width, self.enemySlot2.staminaBar.height = 400, 30
         self.enemySlot2.staminaBar.left, self.enemySlot2.staminaBar.top = 760, 165
         self.enemySlot2.health = buildingBlocks(rpg)
@@ -175,15 +186,83 @@ class combatGUI:
         self.enemySlot2.healthBar.button_color = (100, 0, 0)
         self.enemySlot2.healthBar.width, self.enemySlot2.healthBar.height = 400, 30
         self.enemySlot2.healthBar.left, self.enemySlot2.healthBar.top = 760, 135
+        self.enemySlot2.damageIndicator = buildingBlocks(rpg)
+        self.enemySlot2.damageIndicator.width, self.enemySlot2.damageIndicator.height = 150, 50
+        self.enemySlot2.damageIndicator.left, self.enemySlot2.damageIndicator.top = 1050, 225
+        self.enemySlot2.damageIndicator.text_color = (200, 0, 0)
+        self.enemySlot2.damageIndicator.txt = "-100"
+        self.enemySlot2.damageIndicator.font = pygame.font.SysFont('cambria', 40)
+        self.enemySlot2.damageIndicator.msg_image_rect.top = 225
+        txtCenterFunction(self.enemySlot2.damageIndicator, self.enemySlot2.damageIndicator.msg_image_rect, self.enemySlot2.damageIndicator.txt, self.enemySlot2.damageIndicator.font)
+        self.enemySlot2.damageIndicator.transparent = True
+
+        self.attackBox = buildingBlocks(rpg)
+        self.attackBox.width, self.attackBox.height = 200, 50
+        self.attackBox.left, self.attackBox.top = 760, 625
+        self.attackBox.txt = "Attack"
+        self.attackBox.font = pygame.font.SysFont('cambria', 25)
+        self.attackBox.msg_image_rect.top = 635
+        txtCenterFunction(self.attackBox, self.attackBox.msg_image_rect, self.attackBox.txt, self.attackBox.font)
+        self.attackBox.border = True
+        self.attackBox.clickable = True
+
+        self.restBox = buildingBlocks(rpg)
+        self.restBox.width, self.restBox.height = 200, 50
+        self.restBox.left, self.restBox.top = 960, 625
+        self.restBox.txt = "Rest"
+        self.restBox.font = pygame.font.SysFont('cambria', 25)
+        self.restBox.msg_image_rect.top = 635
+        txtCenterFunction(self.restBox, self.restBox.msg_image_rect, self.restBox.txt, self.restBox.font)
+        self.restBox.border = True
+        self.restBox.clickable = True
+
+        self.fleeBox = buildingBlocks(rpg)
+        self.fleeBox.width, self.fleeBox.height = 200, 50
+        self.fleeBox.left, self.fleeBox.top = 860, 676.5
+        self.fleeBox.txt = "Flee"
+        self.fleeBox.font = pygame.font.SysFont('cambria', 25)
+        self.fleeBox.msg_image_rect.top = 685
+        txtCenterFunction(self.fleeBox, self.fleeBox.msg_image_rect, self.fleeBox.txt, self.fleeBox.font)
+        self.fleeBox.border = True
+        self.fleeBox.clickable = True
+
+        self.showChoices = False
+        self.showEnemySlot2Indicator = False
+        self.showPlayerIndicator = False
+
+        self.enemySlotBox = [self.enemySlot2]
     
     def update(self, rpg):
-        self.health.txt = "Health: {}/{}".format(rpg.player.stats['Hp'], rpg.player.stats['Max Hp'])
-        self.mana.txt = "Mana: {}/{}" .format(rpg.player.stats['Mana'], rpg.player.stats['Max Mana'])
-        self.mana.txt = "Stamina: {}/{}" .format(rpg.player.stats['Stamina'], rpg.player.stats['Max Stamina'])
+        mous_pos = pygame.mouse.get_pos()
+        for box in self.enemySlotBox :
+            if box.rect.collidepoint(mous_pos) or self.attackBox.rect.collidepoint(mous_pos) or self.restBox.rect.collidepoint(mous_pos) or self.fleeBox.rect.collidepoint(mous_pos):
+                if box.txt != "":
+                    self.showChoices = True
+
+                    self.attackBox.left, self.attackBox.top = box.left, 625
+                    self.attackBox.msg_image_rect.top = self.attackBox.top + 10
+                    self.restBox.left, self.restBox.top = self.attackBox.left + 200, 625
+                    self.restBox.msg_image_rect.top = self.attackBox.top + 10
+                    self.fleeBox.left, self.fleeBox.top = self.attackBox.left + 100, 676.5
+                    self.fleeBox.msg_image_rect.top = self.attackBox.top + 60
+
+                    break
+            else:
+                self.showChoices = False
+
+    def mouseEvents(self, rpg):
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mous_pos = pygame.mouse.get_pos()
+                if self.attackBox.rect.collidepoint(mous_pos):
+                    return("Attack")
+                elif self.restBox.rect.collidepoint(mous_pos):
+                    return("Rest")
+                elif self.fleeBox.rect.collidepoint(mous_pos):
+                    return("Flee")
+        rpg.run_game_withoutloop()
+    
         
-        txtCenterFunction(self.health, self.health.msg_image_rect, self.health.txt, self.health.font)
-        txtCenterFunction(self.mana, self.mana.msg_image_rect, self.mana.txt, self.mana.font)
-        txtCenterFunction(self.stamina, self.stamina.msg_image_rect, self.stamina.txt, self.stamina.font)
 
     def draw(self, rpg):
         self.update(rpg)
@@ -199,6 +278,8 @@ class combatGUI:
         self.stamina.draw()
 
         self.playerIcon.draw()
+        if self.showPlayerIndicator:
+            self.playerDamageIndicator.draw()
 
         self.enemySlot2.draw()
         self.enemySlot2.manaBar.draw()
@@ -207,6 +288,13 @@ class combatGUI:
         self.enemySlot2.mana.draw()
         self.enemySlot2.stamina.draw()
         self.enemySlot2.health.draw()
+        if self.showEnemySlot2Indicator:
+            self.enemySlot2.damageIndicator.draw()
+
+        if self.showChoices == True:
+            self.attackBox.draw()
+            self.restBox.draw()
+            self.fleeBox.draw()
 
 class dialogueBlock:
     def __init__(self, rpg):

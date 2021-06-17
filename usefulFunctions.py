@@ -195,15 +195,19 @@ def txtSplitter(Object, font, txt, fontSize):
     
     return(" ".join(sentence1), " ".join(sentence2))
 
-def speak(rpg, dialogue):
+def speak(rpg, icon, dialogue):
     """Useful function whenever I need a npc to talk to the player
 
     Args:
         rpg: variable containing the entire game
         dialogue (string): whatever the npc is going to say
     """
+    rpg.showDialogueBlock = True
     flagDone = False
     line1 = dialogue
+
+    rpg.dialogueBlock.iconBlock.image = pygame.image.load(icon)
+    rpg.dialogueBlock.iconBlock.image = pygame.transform.scale(rpg.dialogueBlock.iconBlock.image, (660, 417))
 
     rpg.dialogueBlock.txtSlot1.msg_image_rect.top, rpg.dialogueBlock.txtSlot1.msg_image_rect.left = 683.85, 720
     rpg.dialogueBlock.txtSlot2.msg_image_rect.top, rpg.dialogueBlock.txtSlot2.msg_image_rect.left = 769.55, 720
@@ -234,6 +238,7 @@ def speak(rpg, dialogue):
         flagDone = True
     
     holdUp(rpg)
+    rpg.showDialogueBlock = False
     rpg.dialogueBlock.wipe()
 
     
@@ -279,3 +284,4 @@ def holdUp(rpg):
 def txtCenterFunction(Object, txtObject, Text, font):
     subtractive = font.size(Text)[0] / 2
     txtObject.left = (Object.left + (Object.width / 2)) - subtractive
+

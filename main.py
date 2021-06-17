@@ -8,7 +8,7 @@ from Images.searchUp import searchUp
 from gui import dialogueBlock, optionMenu, Inventory, playerStats, combatGUI
 from usefulFunctions import speak, playerInteract
 from player import player
-
+from combatFunctions import combatFunction
 class RPG:
     """Overall class to mangage game assets and behavior."""
     def __init__(self):
@@ -23,6 +23,8 @@ class RPG:
         self.menuOpen = False
         self.inventoryOpen = False
         self.statsOpen = False
+        self.combatOpen = False
+        self.showDialogueBlock = False
 
         self.player = player()
         self.dialogueBlock = dialogueBlock(self)
@@ -38,6 +40,13 @@ class RPG:
             if self.game_active:
                 pass
             self._update_screen()
+    
+    def run_game_withoutloop(self):
+        """Start the main loop for the game"""
+        self._check_events()
+        if self.game_active:
+            pass
+        self._update_screen()
 
     def _check_events(self):
         """Method checks for player inputs"""
@@ -72,8 +81,11 @@ class RPG:
         if event.key == pygame.K_q:
             sys.exit()
         elif event.key == pygame.K_w:
-            speak(self, "Hi Daren my name is girl do you like me or do you like guys? I really want to know cuz girls can be guys and guys can be girls. Anyways this conversation is getting really pretty dumb and just some shit to show you some stuff. yatatatatatat dun dun dun and etc or perhaps no")
+            self.player.stats['Weapon'] = self.player.inventory['Weapons']['Iron Sword']
+            self.combatOpen = True
+            combatFunction(self)
         elif event.key == pygame.K_z:
+            speak(self, 'Images\Medusa.png', "Yacky is not a yacky yack yack. In yack he's a back yack. Trees are green, leaves are black. and tea is green. Daren is a guy who is a thiccccc panda, and Jason is a gril who likes ot eat cheese nuggets of weed. Weed is green and tree's are black which means happy thoughts for green treees. Yackerty is backer jtdlkadjsafkl;j;slkfjasf;dlkjfa;slkfjcxzvnm,ndudwuriuqwepurio. Treees are wacky wack.")
             things = ["1.) Aye Sir", "2.) I dunno", "3.) What in tarnation", "4.) How quant", "5.) Lalala", "6.) Allo"]
             playerInteract(things, self)
         elif event.key == pygame.K_ESCAPE:
@@ -93,23 +105,26 @@ class RPG:
                 self.statsOpen = True
             else:
                 self.statsOpen = False
-        if self.menuOpen == True:
+        if self.menuOpen == True:   
             self.optionMenu.keyEvents(event)
 
     def _update_screen(self):
         """Method updates screen"""
         self.screen.fill(self.settings.bg_color)
         if not self.game_active:
-            #self.dialogueBlock.draw()
-            self.combatGUI.draw(self)
+            pass
         else:
             pass
+        if self.combatOpen == True:
+            self.combatGUI.draw(self)
         if self.inventoryOpen == True:
             self.Inventory.draw(self)
         if self.statsOpen == True:
             self.statSheet.draw(self)
         if self.menuOpen == True:
             self.optionMenu.draw()
+        if self.showDialogueBlock == True:
+            self.dialogueBlock.draw()
         pygame.display.flip()
 
 if __name__ == '__main__':
