@@ -86,7 +86,7 @@ class RPG:
             combatFunction(self)
         elif event.key == pygame.K_z:
             speak(self, 'Images\Medusa.png', "Yacky is not a yacky yack yack. In yack he's a back yack. Trees are green, leaves are black. and tea is green. Daren is a guy who is a  panda, and Jason is a gril who likes ot eat random nuggets of sea weed. Sea Weed is green and tree's are black which means happy thoughts for green treees. Yackerty is backer jtdlkadjsafkl;j;slkfjasf;dlkjfa;slkfjcxzvnm,ndudwuriuqwepurio. Treees are wacky wack.")
-            things = ["1.) Aye Sir", "2.) I dunno", "3.) What in tarnation", "4.) How quant"]
+            things = ["1.) Aye Sir", "2.) I dunno", "3.) What in tarnation", "4.) How quant", "5.) Lalala", "6.) Allo"]
             playerInteract(things, self)
         elif event.key == pygame.K_ESCAPE:
             while self.optionMenu.stopLoop == False:
