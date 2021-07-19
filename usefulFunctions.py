@@ -39,11 +39,14 @@ def playerInteract(choices, rpg):
     rpg.dialogueBlock.txtSlot4.clickable = True
     rpg.dialogueBlock.txtSlot5.clickable = True
 
+    rpg.showDialogueBlock = True
 
     if choiceSetLimit > 1:
         multiplePage = True
 
     while choicesDone != True:
+        rpg._update_screen()
+
         try:
             rpg.dialogueBlock.txtSlot1.txt = choices[choiceSet]
         except:
@@ -82,7 +85,8 @@ def playerInteract(choices, rpg):
             elif rpg.dialogueBlock.txtSlot5.txt == "":
                 rpg.dialogueBlock.txtSlot5.txt = "{}.) More Options".format(choiceSet + 5)
                 Slot5 = True
-    
+
+
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 mous_pos = pygame.mouse.get_pos()
@@ -132,7 +136,7 @@ def playerInteract(choices, rpg):
                         rpg.dialogueBlock.wipe()
                 elif rpg.dialogueBlock.txtSlot4.rect.collidepoint(mous_pos):
                     if Slot4 == False:
-                        if rpg.dialogueBlock.txtSlot5.txt != "":
+                        if rpg.dialogueBlock.txtSlot4.txt != "":
                             choicesDone = True
                             returnNum = choiceSet + 4
                     else:
@@ -151,7 +155,7 @@ def playerInteract(choices, rpg):
                             choiceSet = 0
                         rpg.dialogueBlock.wipe()
             
-        rpg._update_screen()
+    
 
     rpg.dialogueBlock.wipe()
     rpg.dialogueBlock.txtSlot1.clickable = False
@@ -164,6 +168,7 @@ def playerInteract(choices, rpg):
     rpg.dialogueBlock.txtSlot4.button_color = (0, 0, 0)
     rpg.dialogueBlock.txtSlot5.clickable = False
     rpg.dialogueBlock.txtSlot5.button_color = (0, 0, 0)
+    rpg.showDialogueBlock = False
     
     #return(returnNum)
 
